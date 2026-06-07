@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>L'Ascension — Terminal Pro</title>
+<title>L'Ascension — Terminal QG Gold</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -13,8 +13,10 @@
   --gr:#1D9E75;--gr2:#5DCAA5;--gr3:rgba(29,158,117,0.12);
   --re:#D85A30;--re2:#F0997B;--re3:rgba(216,90,48,0.12);
   --am:#EF9F27;--am2:#FAC775;--am3:rgba(239,159,39,0.1);
+  --cy:#00BCD4;--cy2:rgba(0,188,212,0.15);
   --tx:#EEEDFE;--tx2:#AFA9EC;--tx3:#7F77DD;--tx4:#3C3489;
   --bd:rgba(83,74,183,0.15);--bd2:rgba(83,74,183,0.3);
+  --gold:#F5C842;--gold2:rgba(245,200,66,0.12);
 }
 html,body{height:100%;overflow:hidden;background:var(--c0);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:12px;}
 button{font-family:inherit;cursor:pointer;outline:none;}
@@ -22,7 +24,6 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background:linear-gradient(var(--bd) 1px,transparent 1px) 0 0/40px 40px,
              linear-gradient(90deg,var(--bd) 1px,transparent 1px) 0 0/40px 40px;}
 
-/* ── APP ── */
 #app{display:flex;flex-direction:column;height:100%;position:relative;z-index:1;}
 
 /* ── TOPBAR ── */
@@ -31,33 +32,26 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .logo-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;}
 .logo-sub{font-size:8px;color:var(--tx4);letter-spacing:2px;}
 .vline{width:1px;height:18px;background:var(--bd);flex-shrink:0;}
-.spc{flex:1;}
-.signal-main{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:1px;padding:3px 14px;border-radius:5px;transition:all 0.3s;}
+.signal-box{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;letter-spacing:1px;padding:4px 16px;border-radius:5px;transition:all 0.4s;}
 .sig-buy{background:rgba(29,158,117,0.2);color:var(--gr2);border:1px solid rgba(29,158,117,0.4);}
 .sig-sell{background:rgba(216,90,48,0.2);color:var(--re2);border:1px solid rgba(216,90,48,0.4);}
-.sig-wait{background:rgba(83,74,183,0.15);color:var(--pu2);border:1px solid var(--bd2);}
+.sig-wait{background:rgba(83,74,183,0.12);color:var(--pu2);border:1px solid var(--bd2);}
+.sig-obs{background:rgba(239,159,39,0.12);color:var(--am2);border:1px solid rgba(239,159,39,0.3);}
+.spc{flex:1;}
 .pill{display:flex;align-items:center;gap:5px;font-size:9px;color:var(--gr);letter-spacing:1px;}
-.dot{width:6px;height:6px;border-radius:50%;background:var(--gr);animation:pulse 2s infinite;}
+.ldot{width:6px;height:6px;border-radius:50%;background:var(--gr);animation:pulse 2s infinite;}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 #clk{font-size:10px;color:var(--tx4);}
 
-/* ── TICKER ── */
-#ticker{display:flex;align-items:center;height:24px;flex-shrink:0;background:var(--c1);border-bottom:1px solid var(--bd);overflow-x:auto;}
-#ticker::-webkit-scrollbar{display:none;}
-.tki{display:flex;align-items:center;gap:5px;padding:0 10px;border-right:1px solid var(--bd);height:100%;flex-shrink:0;}
-.tki-n{font-size:8px;color:var(--tx4);letter-spacing:1px;}
-.tki-p{font-size:11px;font-weight:700;}
-.up{color:var(--gr);}.dn{color:var(--re);}.ne{color:var(--tx3);}
-
-/* ── INFO BAR ── */
-#infobar{display:flex;align-items:center;gap:16px;padding:0 12px;height:28px;flex-shrink:0;background:rgba(9,8,26,0.8);border-bottom:1px solid var(--bd);overflow-x:auto;}
+/* ── INFOBAR ── */
+#infobar{display:flex;align-items:center;height:26px;flex-shrink:0;background:rgba(9,8,26,0.9);border-bottom:1px solid var(--bd);overflow-x:auto;padding:0 12px;gap:0;}
 #infobar::-webkit-scrollbar{display:none;}
-.ib{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.ib{display:flex;align-items:center;gap:5px;padding:0 12px;border-right:1px solid var(--bd);height:100%;flex-shrink:0;}
 .ib-l{font-size:8px;color:var(--tx4);letter-spacing:1px;}
-.ib-v{font-size:11px;font-weight:700;}
+.ib-v{font-size:10px;font-weight:700;}
 
 /* ── BODY ── */
-#body{flex:1;display:grid;grid-template-columns:230px 1fr 240px;overflow:hidden;}
+#body{flex:1;display:grid;grid-template-columns:244px 1fr 244px;overflow:hidden;}
 .panel{overflow-y:auto;background:var(--c1);}
 .panel::-webkit-scrollbar{width:2px;}
 .panel::-webkit-scrollbar-thumb{background:var(--bd2);}
@@ -72,40 +66,48 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .b-gr{background:var(--gr3);color:var(--gr2);}
 .b-re{background:var(--re3);color:var(--re2);}
 .b-am{background:var(--am3);color:var(--am2);}
+.b-cy{background:var(--cy2);color:var(--cy);}
+.b-gold{background:var(--gold2);color:var(--gold);}
 
-/* PRIX PRINCIPAL */
-.price-hero{text-align:center;padding:8px 0;}
-.ph-label{font-size:8px;color:var(--tx4);letter-spacing:2px;margin-bottom:4px;}
-.ph-price{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-1px;transition:color 0.3s;}
+/* PRIX */
+.price-hero{text-align:center;padding:8px 0 4px;}
+.ph-price{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;letter-spacing:-1px;transition:color 0.3s;}
 .ph-chg{font-size:11px;font-weight:700;margin-top:2px;}
-.ph-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px;}
-.phs{background:var(--c2);border-radius:4px;padding:4px 6px;}
-.phs-l{font-size:8px;color:var(--tx4);margin-bottom:1px;}
-.phs-v{font-size:10px;font-weight:700;}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:8px;}
+.phg{background:var(--c2);border-radius:4px;padding:4px 6px;}
+.phg-l{font-size:7px;color:var(--tx4);margin-bottom:1px;letter-spacing:1px;}
+.phg-v{font-size:10px;font-weight:700;}
 
-/* MOMENTUM SCALE */
-.momentum-bar{height:10px;border-radius:5px;overflow:hidden;background:var(--c3);margin:6px 0;position:relative;}
-.momentum-fill{height:100%;border-radius:5px;transition:width 0.5s,background 0.5s;}
-.momentum-label{display:flex;justify-content:space-between;font-size:8px;color:var(--tx3);}
+/* VWAP BIAIS */
+.vwap-biais{padding:8px;border-radius:6px;text-align:center;margin:4px 0;}
+.vb-label{font-size:8px;letter-spacing:2px;margin-bottom:3px;}
+.vb-status{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;}
+.vb-action{font-size:9px;margin-top:3px;line-height:1.4;}
+.vb-buy{background:var(--gr3);border:1px solid rgba(29,158,117,0.3);}
+.vb-sell{background:var(--re3);border:1px solid rgba(216,90,48,0.3);}
+.vb-neu{background:var(--c2);border:1px solid var(--bd);}
+
+/* DASHBOARD 5 ÉTOILES */
+.star-row{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid var(--bd);}
+.star-row:last-child{border:none;}
+.star-icon{font-size:11px;flex-shrink:0;width:16px;}
+.star-label{flex:1;font-size:10px;color:var(--tx2);}
+.star-status{font-size:9px;padding:1px 7px;border-radius:3px;font-weight:700;flex-shrink:0;}
+.s-ok{background:var(--gr3);color:var(--gr2);}
+.s-no{background:var(--re3);color:var(--re2);}
+.s-neu{background:var(--c3);color:var(--tx4);}
 
 /* MTF ALIGNMENT */
-.mtf-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-top:4px;}
-.mtf-cell{text-align:center;padding:3px 2px;border-radius:3px;font-size:8px;font-weight:700;}
+.mtf-wrap{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;}
+.mtf-col{text-align:center;}
+.mtf-tf{font-size:7px;color:var(--tx4);margin-bottom:3px;}
+.mtf-dot{width:100%;padding:4px 2px;border-radius:3px;font-size:8px;font-weight:700;text-align:center;}
 .mtf-buy{background:rgba(29,158,117,0.2);color:var(--gr2);}
 .mtf-sell{background:rgba(216,90,48,0.2);color:var(--re2);}
 .mtf-neu{background:var(--c3);color:var(--tx4);}
-.mtf-label{font-size:7px;color:var(--tx4);text-align:center;margin-top:2px;}
+.mtf-result{font-size:9px;color:var(--tx2);margin-top:5px;line-height:1.4;padding:5px 6px;background:var(--c2);border-radius:4px;}
 
-/* PIVOT POINTS */
-.pivot-row{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--bd);}
-.pivot-row:last-child{border:none;}
-.pivot-name{font-size:9px;width:28px;font-weight:700;}
-.pivot-bar-wrap{flex:1;height:4px;background:var(--c3);border-radius:2px;overflow:hidden;}
-.pivot-bar{height:100%;border-radius:2px;}
-.pivot-val{font-size:10px;font-weight:700;width:70px;text-align:right;}
-.pivot-desc{font-size:8px;color:var(--tx4);width:80px;text-align:right;}
-
-/* INDICATEURS */
+/* INDICATEURS KMM */
 .ind{display:flex;align-items:center;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--bd);}
 .ind:last-child{border:none;}
 .in{font-size:9px;color:var(--tx4);}
@@ -115,6 +117,13 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .tr{background:var(--re3);color:var(--re2);}
 .ta{background:var(--am3);color:var(--am2);}
 .tp{background:rgba(83,74,183,0.12);color:var(--pu2);}
+.tcy{background:var(--cy2);color:var(--cy);}
+
+/* ATR GAUGE */
+.atr-gauge{position:relative;margin:4px 0;}
+.atr-track{height:6px;background:var(--c3);border-radius:3px;overflow:hidden;}
+.atr-fill{height:100%;border-radius:3px;transition:width 0.5s;}
+.atr-labels{display:flex;justify-content:space-between;font-size:7px;color:var(--tx4);margin-top:2px;}
 
 /* SESSIONS */
 .sess{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--bd);}
@@ -123,73 +132,61 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 .sdot.on{background:var(--gr);box-shadow:0 0 5px var(--gr);}
 .sdot.off{background:var(--c3);}
 .sn{flex:1;font-size:10px;}
-.st2{font-size:9px;color:var(--tx4);}
-.slive{font-size:8px;background:var(--gr3);color:var(--gr2);padding:1px 5px;border-radius:2px;}
-
-/* CHECKLIST */
-.check-item{display:flex;align-items:center;gap:7px;padding:4px 0;border-bottom:1px solid var(--bd);font-size:10px;}
-.check-item:last-child{border:none;}
-.chk{width:14px;height:14px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;}
-.chk-ok{background:var(--gr3);color:var(--gr2);border:1px solid rgba(29,158,117,0.3);}
-.chk-no{background:var(--re3);color:var(--re2);border:1px solid rgba(216,90,48,0.3);}
-.chk-neu{background:var(--c3);color:var(--tx4);border:1px solid var(--bd);}
-
-/* CONFLUENCE MATRIX */
-.matrix{width:100%;border-collapse:collapse;font-size:8px;}
-.matrix th{color:var(--tx4);padding:3px 4px;text-align:center;border-bottom:1px solid var(--bd);}
-.matrix td{padding:3px 4px;text-align:center;border-bottom:1px solid var(--bd);}
-.mc-g{background:rgba(29,158,117,0.2);color:var(--gr2);border-radius:2px;}
-.mc-r{background:rgba(216,90,48,0.2);color:var(--re2);border-radius:2px;}
-.mc-n{color:var(--tx4);}
+.st2{font-size:8px;color:var(--tx4);}
+.slive{font-size:7px;background:var(--gr3);color:var(--gr2);padding:1px 5px;border-radius:2px;}
 
 /* CENTER */
 #ctr{display:flex;flex-direction:column;overflow:hidden;}
-#pbar{display:flex;align-items:center;gap:12px;padding:0 10px;height:46px;flex-shrink:0;background:var(--c1);border-bottom:1px solid var(--bd);}
-.pnum{font-family:'Syne',sans-serif;font-size:24px;font-weight:800;letter-spacing:-1px;transition:color 0.3s;}
+#pbar{display:flex;align-items:center;gap:12px;padding:0 10px;height:44px;flex-shrink:0;background:var(--c1);border-bottom:1px solid var(--bd);}
+.pnum{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;letter-spacing:-1px;transition:color 0.3s;}
 .pchg{font-size:11px;font-weight:700;}
 .pstats{display:flex;gap:12px;margin-left:auto;}
 .pst{text-align:center;}
-.psl{font-size:8px;color:var(--tx4);letter-spacing:1px;text-transform:uppercase;margin-bottom:1px;}
-.psv{font-size:11px;font-weight:600;}
+.psl{font-size:7px;color:var(--tx4);letter-spacing:1px;text-transform:uppercase;margin-bottom:1px;}
+.psv{font-size:10px;font-weight:600;}
 #tfbar{display:flex;align-items:center;gap:3px;padding:4px 10px;background:var(--c1);border-bottom:1px solid var(--bd);flex-shrink:0;}
 .tf{font-size:9px;font-weight:700;padding:3px 8px;border-radius:4px;border:1px solid var(--bd);background:transparent;color:var(--tx3);transition:all 0.15s;}
 .tf.on{background:var(--pu);color:var(--tx);border-color:var(--pu);}
 .tf:hover:not(.on){color:var(--tx);border-color:var(--bd2);}
 .tf-sep{flex:1;}
-.iov{font-size:9px;padding:2px 7px;border-radius:3px;background:rgba(9,8,26,0.9);border:1px solid var(--bd);}
+.iov{font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(9,8,26,0.9);border:1px solid var(--bd);}
 #chartbox{flex:1;position:relative;overflow:hidden;}
 #chart{width:100%;height:100%;}
 
-/* TRIGONOMETER */
-.trigo-wrap{display:flex;flex-direction:column;align-items:center;padding:6px 0;}
-#trigo-canvas{border-radius:50%;}
-.trigo-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px;width:100%;margin-top:6px;}
-.trs{background:var(--c2);border-radius:4px;padding:4px 6px;text-align:center;}
-.trs-l{font-size:7px;color:var(--tx4);margin-bottom:1px;}
-.trs-v{font-size:10px;font-weight:700;}
+/* RIGHT PANEL */
+/* ORE LEVELS */
+.ore-row{display:flex;align-items:center;gap:5px;padding:4px 0;border-bottom:1px solid var(--bd);}
+.ore-row:last-child{border:none;}
+.ore-name{font-size:8px;font-weight:700;width:36px;flex-shrink:0;}
+.ore-bar-wrap{flex:1;height:4px;background:var(--c3);border-radius:2px;overflow:hidden;}
+.ore-bar{height:100%;border-radius:2px;}
+.ore-val{font-size:10px;font-weight:700;width:65px;text-align:right;}
+.ore-dist{font-size:8px;color:var(--tx4);width:40px;text-align:right;}
 
-/* DEV GAUGE */
-.dev-gauge-wrap{position:relative;text-align:center;padding:4px 0;}
-.dev-label{font-size:8px;color:var(--tx4);margin-bottom:4px;}
-.dev-val{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-top:2px;}
-.dev-state{font-size:9px;padding:2px 10px;border-radius:3px;font-weight:700;margin-top:2px;display:inline-block;}
+/* SWEEP DETECTOR */
+.sweep-box{padding:8px;border-radius:6px;margin:2px 0;}
+.sweep-active{background:rgba(239,159,39,0.1);border:1px solid rgba(239,159,39,0.3);}
+.sweep-none{background:var(--c2);border:1px solid var(--bd);}
+.sweep-title{font-size:9px;font-weight:700;margin-bottom:3px;}
+.sweep-desc{font-size:9px;color:var(--tx2);line-height:1.5;}
 
-/* ALERTES */
-.alrt{padding:5px 7px;border-radius:4px;margin-bottom:4px;font-size:10px;line-height:1.4;}
-.alrt:last-child{margin:0;}
-.ag{background:var(--gr3);border:1px solid rgba(29,158,117,0.25);color:var(--gr2);}
-.ar{background:var(--re3);border:1px solid rgba(216,90,48,0.25);color:var(--re2);}
-.aa{background:var(--am3);border:1px solid rgba(239,159,39,0.2);color:var(--am2);}
-.ap{background:rgba(83,74,183,0.08);border:1px solid var(--bd);color:var(--tx3);}
+/* CHECKLIST */
+.chk-row{display:flex;align-items:flex-start;gap:7px;padding:4px 0;border-bottom:1px solid var(--bd);}
+.chk-row:last-child{border:none;}
+.chk-icon{width:14px;height:14px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:1px;}
+.chk-ok{background:var(--gr3);color:var(--gr2);border:1px solid rgba(29,158,117,0.3);}
+.chk-no{background:var(--re3);color:var(--re2);border:1px solid rgba(216,90,48,0.3);}
+.chk-neu{background:var(--c3);color:var(--tx4);border:1px solid var(--bd);}
+.chk-text{flex:1;}
+.chk-label{font-size:10px;color:var(--tx);}
+.chk-sub{font-size:8px;color:var(--tx3);margin-top:1px;}
 
-/* CORRELATIONS */
-.corr-row{display:flex;align-items:center;gap:6px;padding:4px 0;border-bottom:1px solid var(--bd);}
-.corr-row:last-child{border:none;}
-.corr-name{font-size:9px;color:var(--tx3);width:45px;flex-shrink:0;}
-.corr-val{font-size:11px;font-weight:700;width:50px;}
-.corr-bar-wrap{flex:1;height:4px;background:var(--c3);border-radius:2px;overflow:hidden;}
-.corr-bar{height:100%;border-radius:2px;transition:width 0.5s;}
-.corr-desc{font-size:8px;color:var(--tx4);width:60px;text-align:right;}
+/* ANNONCES */
+.ann{padding:5px 0;border-bottom:1px solid var(--bd);}
+.ann:last-child{border:none;}
+.ann-top{display:flex;align-items:center;gap:5px;margin-bottom:2px;}
+.ann-name{font-size:10px;font-weight:700;flex:1;}
+.ann-note{font-size:8px;color:var(--tx2);line-height:1.4;}
 
 /* PSYCHO */
 .pq{font-size:10px;font-style:italic;color:var(--tx);line-height:1.6;margin-bottom:4px;}
@@ -209,108 +206,104 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 <div id="topbar">
   <div class="logo">
     <svg width="24" height="24" viewBox="0 0 44 44"><rect width="44" height="44" rx="8" fill="#534AB7"/><polygon points="22,8 34,34 22,26 10,34" fill="#7F77DD"/><polygon points="22,8 34,34 22,26" fill="#AFA9EC"/><polygon points="22,26 10,34 22,20" fill="#3C3489"/><polygon points="22,6 26,14 18,14" fill="#EEEDFE"/></svg>
-    <div><div class="logo-name">L'Ascension</div><div class="logo-sub">TERMINAL PRO · XAU/USD</div></div>
+    <div><div class="logo-name">L'Ascension</div><div class="logo-sub">TERMINAL · QG GOLD</div></div>
   </div>
   <div class="vline"></div>
-  <div class="signal-main sig-wait" id="main-signal">WAIT</div>
+  <div class="signal-box sig-wait" id="main-signal">OBSERVATION</div>
   <div class="spc"></div>
-  <div class="pill"><div class="dot"></div><span>EN DIRECT</span></div>
+  <div class="pill"><div class="ldot"></div><span>EN DIRECT</span></div>
   <div class="vline"></div>
   <div id="clk">--:--:--</div>
 </div>
 
-<!-- TICKER -->
-<div id="ticker">
-  <div class="tki"><span class="tki-n">XAU/USD</span><span class="tki-p ne" id="tk-xau">--</span><span class="ne" style="font-size:9px;margin-left:3px" id="tk-xau-c"></span></div>
-  <div class="tki"><span class="tki-n">Z-SCORE</span><span class="tki-p ne" id="tk-zscore">--</span></div>
-  <div class="tki"><span class="tki-n">ROC(9)</span><span class="tki-p ne" id="tk-roc">--</span></div>
-  <div class="tki"><span class="tki-n">ATR(7)</span><span class="tki-p ne" id="tk-atr">--</span></div>
-  <div class="tki"><span class="tki-n">VWAP</span><span class="tki-p ne" id="tk-vwap">--</span></div>
-  <div class="tki"><span class="tki-n">SESSION</span><span class="tki-p ne" id="tk-sess">--</span></div>
-  <div class="tki"><span class="tki-n">MAJ</span><span class="tki-p ne" id="tk-upd">--:--:--</span></div>
-</div>
-
 <!-- INFO BAR -->
 <div id="infobar">
-  <div class="ib"><span class="ib-l">SCORE</span><span class="ib-v ne" id="ib-score">--/100</span></div>
-  <div class="vline"></div>
-  <div class="ib"><span class="ib-l">MOMENTUM</span><span class="ib-v ne" id="ib-mom">--</span></div>
-  <div class="vline"></div>
-  <div class="ib"><span class="ib-l">BUY%</span><span class="ib-v up" id="ib-buy">--%</span></div>
-  <div class="vline"></div>
-  <div class="ib"><span class="ib-l">SELL%</span><span class="ib-v dn" id="ib-sell">--%</span></div>
-  <div class="vline"></div>
-  <div class="ib"><span class="ib-l">PIVOT PP</span><span class="ib-v ne" id="ib-pp">--</span></div>
-  <div class="vline"></div>
-  <div class="ib"><span class="ib-l">BIAIS STRUCTURE</span><span class="ib-v ne" id="ib-biais">--</span></div>
-  <div class="vline"></div>
-  <div class="ib"><span class="ib-l">CONFLUENCE</span><span class="ib-v ne" id="ib-conf">--/6 TF</span></div>
+  <div class="ib"><span class="ib-l">VWAP</span><span class="ib-v ne" id="ib-vwap">--</span></div>
+  <div class="ib"><span class="ib-l">Z-SCORE</span><span class="ib-v ne" id="ib-z">--</span></div>
+  <div class="ib"><span class="ib-l">ROC M10</span><span class="ib-v ne" id="ib-roc10">--</span></div>
+  <div class="ib"><span class="ib-l">ROC M1</span><span class="ib-v ne" id="ib-roc1">--</span></div>
+  <div class="ib"><span class="ib-l">W%R M10</span><span class="ib-v ne" id="ib-wpr10">--</span></div>
+  <div class="ib"><span class="ib-l">ATR(7)</span><span class="ib-v ne" id="ib-atr">--</span></div>
+  <div class="ib"><span class="ib-l">RH</span><span class="ib-v ne" id="ib-rh">--</span></div>
+  <div class="ib"><span class="ib-l">RL</span><span class="ib-v ne" id="ib-rl">--</span></div>
+  <div class="ib"><span class="ib-l">MID</span><span class="ib-v ne" id="ib-mid">--</span></div>
+  <div class="ib"><span class="ib-l">SESSION</span><span class="ib-v ne" id="ib-sess">--</span></div>
 </div>
 
 <!-- BODY -->
 <div id="body">
 
-<!-- LEFT PANEL -->
+<!-- LEFT -->
 <div class="panel" id="pl">
   <div id="errmsg"></div>
 
-  <!-- PRIX + SIGNAL -->
+  <!-- PRIX + VWAP BIAIS -->
   <div class="sec">
-    <div class="sh"><div class="st">XAU/USD — OR</div><div class="badge b-am" id="dev-badge">DEV: --</div></div>
+    <div class="sh"><div class="st">XAU/USD — OR SPOT</div><div class="badge b-am" id="dev-badge">DEV --</div></div>
     <div class="price-hero">
       <div class="ph-price ne" id="price-main">--.--</div>
       <div class="ph-chg ne" id="price-chg">-- (--)</div>
-      <div class="ph-stats">
-        <div class="phs"><div class="phs-l">OUVERT</div><div class="phs-v" id="ps-o">---</div></div>
-        <div class="phs"><div class="phs-l">HAUT</div><div class="phs-v up" id="ps-h">---</div></div>
-        <div class="phs"><div class="phs-l">BAS</div><div class="phs-v dn" id="ps-l">---</div></div>
-        <div class="phs"><div class="phs-l">PRÉC.</div><div class="phs-v" id="ps-p">---</div></div>
+      <div class="ph-grid">
+        <div class="phg"><div class="phg-l">OUVERT</div><div class="phg-v" id="ph-o">---</div></div>
+        <div class="phg"><div class="phg-l">HAUT JOUR</div><div class="phg-v up" id="ph-h">---</div></div>
+        <div class="phg"><div class="phg-l">BAS JOUR</div><div class="phg-v dn" id="ph-l">---</div></div>
+        <div class="phg"><div class="phg-l">PRÉC. CLÔT.</div><div class="phg-v" id="ph-p">---</div></div>
       </div>
     </div>
   </div>
 
-  <!-- ÉCHELLE DE MOMENTUM -->
+  <!-- BIAIS VWAP -->
   <div class="sec">
-    <div class="sh"><div class="st">ÉCHELLE DE MOMENTUM</div><div class="badge b-pu" id="mom-badge">NEUTRE</div></div>
-    <div class="momentum-label"><span>VENTE FORTE</span><span>NEUTRE</span><span>ACHAT FORT</span></div>
-    <div class="momentum-bar"><div class="momentum-fill" id="mom-bar" style="width:50%;background:var(--tx3);margin-left:0;"></div></div>
-    <div style="font-size:9px;color:var(--tx2);margin-top:4px;line-height:1.5;" id="mom-desc">Chargement de l'analyse momentum...</div>
+    <div class="sh"><div class="st">BIAIS VWAP — GRAVITÉ DU MARCHÉ</div></div>
+    <div class="vwap-biais vb-neu" id="vwap-biais-box">
+      <div class="vb-label">CONTEXTE</div>
+      <div class="vb-status ne" id="vb-status">CALCUL...</div>
+      <div class="vb-action ne" id="vb-action">En attente des données VWAP...</div>
+    </div>
+    <div class="ind"><span class="in">VWAP Session</span><span class="iv ne" id="v-vwap">--</span><span class="tag tcy" id="t-vwap">--</span></div>
+    <div class="ind"><span class="in">Distance VWAP</span><span class="iv ne" id="v-dvwap">--</span><span class="tag tp" id="t-dvwap">--</span></div>
   </div>
 
-  <!-- ALIGNEMENT MULTI-TIMEFRAMES -->
+  <!-- MOMENTUM KMM -->
+  <div class="sec">
+    <div class="sh"><div class="st">MOMENTUM KMM</div><div class="badge b-pu">M10 → M1</div></div>
+    <div class="ind"><span class="in">ROC M10 (Direction)</span><span class="iv ne" id="v-roc10">--</span><span class="tag tp" id="t-roc10">--</span></div>
+    <div class="ind"><span class="in">ROC M1 (Timing)</span><span class="iv ne" id="v-roc1">--</span><span class="tag tp" id="t-roc1">--</span></div>
+    <div class="ind"><span class="in">W%R M10 (Excès)</span><span class="iv ne" id="v-wpr10">--</span><span class="tag tp" id="t-wpr10">--</span></div>
+    <div class="ind"><span class="in">W%R M1 (Action)</span><span class="iv ne" id="v-wpr1">--</span><span class="tag tp" id="t-wpr1">--</span></div>
+    <div style="font-size:9px;color:var(--tx2);margin-top:5px;padding:5px 6px;background:var(--c2);border-radius:4px;line-height:1.5;" id="mom-rule">Le M10 donne l'autorisation. Le M1 donne l'exécution.</div>
+  </div>
+
+  <!-- PVT + ATR -->
+  <div class="sec">
+    <div class="sh"><div class="st">VALIDATION & RISQUE</div></div>
+    <div class="ind"><span class="in">PVT (Volume/Prix)</span><span class="iv ne" id="v-pvt">--</span><span class="tag tp" id="t-pvt">--</span></div>
+    <div class="ind"><span class="in">Z-Score</span><span class="iv ne" id="v-zscore">--</span><span class="tag tp" id="t-zscore">--</span></div>
+    <div style="margin-top:5px;">
+      <div style="font-size:8px;color:var(--tx4);margin-bottom:3px;display:flex;justify-content:space-between;"><span>ATR(7) Volatilité</span><span class="ne" id="v-atr">--</span></div>
+      <div class="atr-track"><div class="atr-fill" id="atr-fill" style="width:30%;background:var(--gr)"></div></div>
+      <div class="atr-labels"><span>FAIBLE</span><span>OPTIMAL</span><span>ÉLEVÉ</span></div>
+      <div style="font-size:8px;color:var(--tx3);margin-top:3px;" id="atr-advice">--</div>
+    </div>
+  </div>
+
+  <!-- ALIGNEMENT MTF -->
   <div class="sec">
     <div class="sh"><div class="st">ALIGNEMENT TIMEFRAMES</div></div>
-    <div class="mtf-grid" id="mtf-grid">
-      <div class="mtf-cell mtf-neu">--</div>
-      <div class="mtf-cell mtf-neu">--</div>
-      <div class="mtf-cell mtf-neu">--</div>
-      <div class="mtf-cell mtf-neu">--</div>
-      <div class="mtf-cell mtf-neu">--</div>
-      <div class="mtf-cell mtf-neu">--</div>
+    <div class="mtf-wrap" id="mtf-wrap">
+      <div class="mtf-col"><div class="mtf-tf">1M</div><div class="mtf-dot mtf-neu" id="mtf-1m">--</div></div>
+      <div class="mtf-col"><div class="mtf-tf">5M</div><div class="mtf-dot mtf-neu" id="mtf-5m">--</div></div>
+      <div class="mtf-col"><div class="mtf-tf">15M</div><div class="mtf-dot mtf-neu" id="mtf-15m">--</div></div>
+      <div class="mtf-col"><div class="mtf-tf">1H</div><div class="mtf-dot mtf-neu" id="mtf-1h">--</div></div>
+      <div class="mtf-col"><div class="mtf-tf">4H</div><div class="mtf-dot mtf-neu" id="mtf-4h">--</div></div>
+      <div class="mtf-col"><div class="mtf-tf">D</div><div class="mtf-dot mtf-neu" id="mtf-d">--</div></div>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-top:3px;">
-      <div class="mtf-label">1M</div><div class="mtf-label">5M</div><div class="mtf-label">15M</div>
-      <div class="mtf-label">1H</div><div class="mtf-label">4H</div><div class="mtf-label">D</div>
-    </div>
-    <div style="font-size:9px;color:var(--tx2);margin-top:6px;line-height:1.5;" id="mtf-desc">En attente d'alignement...</div>
-  </div>
-
-  <!-- INDICATEURS TECHNIQUES -->
-  <div class="sec">
-    <div class="sh"><div class="st">INDICATEURS CLÉS</div></div>
-    <div class="ind"><span class="in">Z-Score</span><span class="iv ne" id="v-zscore">--</span><span class="tag tp" id="t-zscore">--</span></div>
-    <div class="ind"><span class="in">ROC(9) · 1M</span><span class="iv ne" id="v-roc">--</span><span class="tag tp" id="t-roc">--</span></div>
-    <div class="ind"><span class="in">ATR(7) · Volatilité</span><span class="iv ne" id="v-atr">--</span><span class="tag tp" id="t-atr">--</span></div>
-    <div class="ind"><span class="in">VWAP · Session</span><span class="iv ne" id="v-vwap">--</span><span class="tag tp" id="t-vwap">--</span></div>
-    <div class="ind"><span class="in">WPR(14)</span><span class="iv ne" id="v-wpr">--</span><span class="tag tp" id="t-wpr">--</span></div>
-    <div class="ind"><span class="in">RSI(14) · H4</span><span class="iv ne" id="v-rsi">--</span><span class="tag tp" id="t-rsi">--</span></div>
-    <div class="ind"><span class="in">MM20 · H4</span><span class="iv ne" id="v-ma20">--</span><span class="tag tp" id="t-ma20">--</span></div>
-    <div class="ind"><span class="in">MM200 · Daily</span><span class="iv ne" id="v-ma200">--</span><span class="tag tp" id="t-ma200">--</span></div>
+    <div class="mtf-result" id="mtf-result">En attente des données...</div>
   </div>
 
   <!-- SESSIONS -->
   <div class="sec">
-    <div class="sh"><div class="st">SESSIONS DE MARCHÉ</div></div>
+    <div class="sh"><div class="st">SESSIONS</div></div>
     <div id="sessions"></div>
   </div>
 
@@ -330,7 +323,8 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
       <div class="pst"><div class="psl">OUVERT</div><div class="psv" id="cp-o">---</div></div>
       <div class="pst"><div class="psl">HAUT</div><div class="psv up" id="cp-h">---</div></div>
       <div class="pst"><div class="psl">BAS</div><div class="psv dn" id="cp-l">---</div></div>
-      <div class="pst"><div class="psl">PIVOT PP</div><div class="psv ne" id="cp-pp">---</div></div>
+      <div class="pst"><div class="psl">VWAP</div><div class="psv" style="color:var(--cy)" id="cp-vwap">---</div></div>
+      <div class="pst"><div class="psl">MID RANGE</div><div class="psv ne" id="cp-mid">---</div></div>
     </div>
   </div>
   <div id="tfbar">
@@ -342,47 +336,55 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
     <button class="tf" onclick="setTF(this,'1day')">D</button>
     <div class="tf-sep"></div>
     <span class="iov ne" id="ov-rsi">RSI: --</span>
-    <span class="iov" style="color:var(--pu2);margin-left:4px" id="ov-ma20">MA20: --</span>
-    <span class="iov" style="color:var(--gr2);margin-left:4px" id="ov-vwap">VWAP: --</span>
+    <span class="iov" style="color:var(--cy);margin-left:4px" id="ov-vwap">VWAP: --</span>
+    <span class="iov" style="color:var(--gold);margin-left:4px" id="ov-ore">ORE: --</span>
   </div>
   <div id="chartbox"><div id="chart"></div></div>
 </div>
 
-<!-- RIGHT PANEL -->
+<!-- RIGHT -->
 <div class="panel" id="pr">
 
-  <!-- POINTS PIVOTS -->
+  <!-- DASHBOARD 5 ÉTOILES -->
   <div class="sec">
-    <div class="sh"><div class="st">POINTS PIVOTS CLASSIQUES</div><div class="badge b-am" id="pivot-pos">--</div></div>
-    <div id="pivot-list"></div>
+    <div class="sh"><div class="st">DASHBOARD 5⭐ — QG GOLD</div><div class="badge b-pu" id="star-score">0/5</div></div>
+    <div id="dashboard5"></div>
+    <div style="margin-top:6px;padding:6px 8px;border-radius:5px;font-size:10px;font-weight:700;text-align:center;" id="entry-signal">--</div>
   </div>
 
-  <!-- CHECKLIST SIGNAL -->
+  <!-- NIVEAUX ORE -->
   <div class="sec">
-    <div class="sh"><div class="st">CHECKLIST ENTRÉE</div><div class="badge b-pu" id="check-score">0/8</div></div>
-    <div id="checklist"></div>
+    <div class="sh"><div class="st">NIVEAUX RANGE & ORE</div><div class="badge b-gold" id="ore-dir">--</div></div>
+    <div id="ore-levels"></div>
   </div>
 
-  <!-- MATRICE DE CONFLUENCE -->
+  <!-- SWEEP DETECTOR -->
   <div class="sec">
-    <div class="sh"><div class="st">MATRICE DE CONFLUENCE</div></div>
-    <table class="matrix" id="matrix">
-      <tr><th></th><th>1M</th><th>5M</th><th>15M</th><th>1H</th><th>4H</th><th>D</th></tr>
-    </table>
+    <div class="sh"><div class="st">SWEEP DETECTOR</div></div>
+    <div id="sweep-box" class="sweep-box sweep-none">
+      <div class="sweep-title ne">⏳ En surveillance...</div>
+      <div class="sweep-desc">Attendre un sweep RH ou RL suivi d'un retour dans le range.</div>
+    </div>
   </div>
 
-  <!-- CORRELATIONS MACRO -->
+  <!-- ANNONCES ÉCONOMIQUES -->
   <div class="sec">
-    <div class="sh"><div class="st">CORRÉLATIONS MACRO</div></div>
-    <div class="corr-row"><span class="corr-name">DXY</span><span class="corr-val ne" id="c-dxy">--</span><div class="corr-bar-wrap"><div class="corr-bar" id="cb-dxy" style="width:50%;background:var(--tx3)"></div></div><span class="corr-desc ne" id="cd-dxy">--</span></div>
-    <div class="corr-row"><span class="corr-name">US10Y</span><span class="corr-val ne" id="c-10y">--</span><div class="corr-bar-wrap"><div class="corr-bar" id="cb-10y" style="width:50%;background:var(--tx3)"></div></div><span class="corr-desc ne" id="cd-10y">--</span></div>
-    <div class="corr-row"><span class="corr-name">SPX500</span><span class="corr-val ne" id="c-spx">--</span><div class="corr-bar-wrap"><div class="corr-bar" id="cb-spx" style="width:50%;background:var(--tx3)"></div></div><span class="corr-desc ne" id="cd-spx">--</span></div>
+    <div class="sh"><div class="st">ANNONCES — IMPACT XAU</div></div>
+    <div class="ann"><div class="ann-top"><span class="ann-name">FOMC / Décision Fed</span><span class="badge b-re">EXTRÊME</span></div><div class="ann-note">Taux bas = or ↑ fort. Rester hors marché ±30min.</div></div>
+    <div class="ann"><div class="ann-top"><span class="ann-name">CPI Inflation USA</span><span class="badge b-re">TRÈS ÉLEVÉ</span></div><div class="ann-note">Inflation haute = or ↑. Surveiller réaction DXY.</div></div>
+    <div class="ann"><div class="ann-top"><span class="ann-name">NFP Emploi USA</span><span class="badge b-re">ÉLEVÉ</span></div><div class="ann-note">Emploi fort = DXY ↑ = or ↓. Volatilité extrême.</div></div>
+    <div class="ann"><div class="ann-top"><span class="ann-name">Discours Fed (Powell)</span><span class="badge b-re">ÉLEVÉ</span></div><div class="ann-note">Chaque mot compte. Hawkish = or ↓. Dovish = or ↑.</div></div>
+    <div class="ann"><div class="ann-top"><span class="ann-name">Tensions Géopolitiques</span><span class="badge b-am">VARIABLE</span></div><div class="ann-note">Crise = or ↑ fort (valeur refuge). Surveiller news.</div></div>
   </div>
 
-  <!-- ALERTES -->
+  <!-- PIÈGES MORTELS -->
   <div class="sec">
-    <div class="sh"><div class="st">ALERTES ACTIVES</div></div>
-    <div id="alertes"><div class="alrt ap">⏳ Initialisation...</div></div>
+    <div class="sh"><div class="st">PIÈGES — NE JAMAIS FAIRE</div></div>
+    <div style="font-size:9px;color:var(--re2);padding:3px 0;border-bottom:1px solid var(--bd);">❌ Entrer sur la cassure sans attendre le sweep + retour</div>
+    <div style="font-size:9px;color:var(--re2);padding:3px 0;border-bottom:1px solid var(--bd);">❌ Utiliser ROC M1 seul sans autorisation M10</div>
+    <div style="font-size:9px;color:var(--re2);padding:3px 0;border-bottom:1px solid var(--bd);">❌ Ignorer la VWAP — elle autorise ou interdit le trade</div>
+    <div style="font-size:9px;color:var(--re2);padding:3px 0;border-bottom:1px solid var(--bd);">❌ SL trop serré sur le Gold sans consulter l'ATR</div>
+    <div style="font-size:9px;color:var(--re2);padding:3px 0;">❌ Entrer mécaniquement au 1.618 sans rejet confirmé</div>
   </div>
 
   <!-- PSYCHOLOGIE -->
@@ -400,28 +402,22 @@ body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
 
 <script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
 <script>
-// ── QUOTES ──────────────────────────────────────────────────
 const QUOTES=[
-  {t:'"Ne jamais entrer sans la confirmation absolue du 5M."',a:"Protocole Institutionnel",d:"Le 1M détecte, le 5M confirme, le 15M filtre. Jamais d'entrée sur 1M seul."},
-  {t:'"Acheter sous le Pivot = acheter dans le biais baissier. Erreur fatale."',a:"Règle d'Or Structure",d:"Le Pivot Principal détermine le biais absolu. Prix > PP = haussier. Prix < PP = baissier."},
-  {t:'"Un signal n\'est valide que sur minimum 3 timeframes simultanément."',a:"Règle KMM Confluence",d:"Un signal isolé sur 1M = bruit de marché. Attendre l'alignement 1M + 5M + 15M."},
-  {t:'"Ne trader que si Angle Power > 45% et vecteur R > 0.5."',a:"KMM Terminal Guide",d:"Sous ces seuils, le momentum est insuffisant. Le signal n'est pas de qualité institutionnelle."},
-  {t:'"La patience n\'est pas passive. C\'est une action concentrée."',a:"Bruce Lee",d:"WAIT n'est pas une faiblesse. C'est la décision la plus difficile et la plus rentable."},
-  {t:'"Le marché peut rester irrationnel plus longtemps que tu peux rester solvable."',a:"J.M. Keynes",d:"Respecter le stop. Toujours. Même quand tu es convaincu d'avoir raison."},
-  {t:'"Momentum + Structure = Confluence Institutionnelle."',a:"Terminal Institutionnel",d:"Les deux doivent être alignés. L'un sans l'autre = signal incomplet."},
-  {t:'"ATR élevé = réduire la taille. Jamais augmenter."',a:"KMM Risk Management",d:"La volatilité n'est pas ton amie quand le marché est agité. Adapter la taille."},
+  {t:'"Un débutant entre sur la cassure. Un trader structuré attend le retour après la cassure."',a:'QG Gold',d:"Sweep + retour + ORE + rejet + break micro = entrée. Pas avant."},
+  {t:'"Le M10 donne l\'autorisation. Le M1 donne l\'exécution."',a:'Système KMM',d:"Ne jamais prendre un trade M1 contre un M10 fort. Toujours."},
+  {t:'"Ne jamais ignorer la VWAP. C\'est elle qui autorise ou interdit le sens du trade."',a:'KMM Terminal',d:"Prix > VWAP = priorité achat. Prix < VWAP = priorité vente."},
+  {t:'"Sweep seul = pas de trade. Sweep + retour + ORE + confirmation = setup valide."',a:'QG Gold — Règle',d:"La chasse commence APRÈS le sweep, pas pendant."},
+  {t:'"Le marché traque les déséquilibres pour frapper au moment du rejet."',a:'KMM System',d:"On ne cherche pas la tendance parfaite. On cherche l'anomalie."},
+  {t:'"La patience ici est une décision active, pas une faiblesse."',a:'QG Gold',d:"WAIT n'est pas une absence de décision. C'est la meilleure décision."},
+  {t:'"Chaque outil a une fonction unique. Ne lisez pas l\'écran comme un sapin de Noël."',a:'KMM Tableau de Bord',d:"VWAP = contexte. ATR = risque. ROC = momentum. W%R = excès."},
 ];
 let qi=0;
 
-// ── STATE ──────────────────────────────────────────────────
-let prevPrice=null;
-let priceHistory=[];
-let chart=null,candles=null,ma20l=null,ma50l=null,vwapL=null;
-let liveC=null;
-let TF='1h';
-let indicators={};
+// STATE
+let prevPrice=null,priceH=[],chart=null,candles=null,ma20l=null,vwapLine=null,liveC=null,TF='1h';
+let ind={};
 
-// ── BOOT ──────────────────────────────────────────────────
+// BOOT
 window.onload=()=>{
   initChart();
   showQ();
@@ -433,7 +429,7 @@ window.onload=()=>{
   setInterval(loadAll,5*60*1000);
 };
 
-// ── CHART ──────────────────────────────────────────────────
+// CHART
 function initChart(){
   const box=document.getElementById('chartbox');
   chart=LightweightCharts.createChart(document.getElementById('chart'),{
@@ -445,8 +441,8 @@ function initChart(){
     timeScale:{borderColor:'rgba(83,74,183,0.2)',timeVisible:true,secondsVisible:false},
   });
   candles=chart.addCandlestickSeries({upColor:'#1D9E75',downColor:'#D85A30',borderUpColor:'#1D9E75',borderDownColor:'#D85A30',wickUpColor:'#5DCAA5',wickDownColor:'#F0997B'});
-  ma20l=chart.addLineSeries({color:'rgba(127,119,221,0.7)',lineWidth:1,priceLineVisible:false,lastValueVisible:false});
-  vwapL=chart.addLineSeries({color:'rgba(239,159,39,0.6)',lineWidth:1,priceLineVisible:false,lastValueVisible:false,lineStyle:2});
+  ma20l=chart.addLineSeries({color:'rgba(127,119,221,0.6)',lineWidth:1,priceLineVisible:false,lastValueVisible:false});
+  vwapLine=chart.addLineSeries({color:'rgba(0,188,212,0.7)',lineWidth:1,priceLineVisible:false,lastValueVisible:false,lineStyle:2});
   new ResizeObserver(()=>chart.applyOptions({width:box.clientWidth,height:box.clientHeight})).observe(box);
 }
 
@@ -460,13 +456,11 @@ function calcMA(data,p){
 }
 
 function calcVWAP(data){
-  // VWAP simplifié (pas de volume disponible, on utilise le prix typique)
   const out=[];
-  let cumTP=0,count=0;
+  let cumTP=0,n=0;
   for(let i=0;i<data.length;i++){
-    const tp=(data[i].high+data[i].low+data[i].close)/3;
-    cumTP+=tp;count++;
-    out.push({time:data[i].time,value:parseFloat((cumTP/count).toFixed(4))});
+    cumTP+=(data[i].high+data[i].low+data[i].close)/3;n++;
+    out.push({time:data[i].time,value:parseFloat((cumTP/n).toFixed(4))});
   }
   return out;
 }
@@ -481,43 +475,37 @@ async function loadChart(){
       time:Math.floor(new Date(v.datetime.includes('T')?v.datetime+'Z':v.datetime+' UTC').getTime()/1000),
       open:parseFloat(v.open),high:parseFloat(v.high),low:parseFloat(v.low),close:parseFloat(v.close),
     })).filter(v=>{if(seen.has(v.time))return false;seen.add(v.time);return true;});
-    
     candles.setData(data);
     liveC=data[data.length-1];
-    
     const closes=data.map(c=>({time:c.time,value:c.close}));
     const ma20=calcMA(closes,20);
     ma20l.setData(ma20);
-    
     const vwap=calcVWAP(data);
-    vwapL.setData(vwap);
-    
-    const lastMA20=ma20.slice(-1)[0];
-    const lastVWAP=vwap.slice(-1)[0];
-    if(lastMA20){
-      document.getElementById('ov-ma20').textContent='MA20: '+lastMA20.value.toFixed(0);
-      document.getElementById('v-ma20').textContent=lastMA20.value.toFixed(2);
+    vwapLine.setData(vwap);
+    const lastVwap=vwap.slice(-1)[0];
+    const lastMa20=ma20.slice(-1)[0];
+    if(lastVwap){ind.vwap=lastVwap.value;document.getElementById('ov-vwap').textContent='VWAP: '+lastVwap.value.toFixed(0);}
+    if(lastMa20){document.getElementById('ov-rsi').textContent='MA20: '+lastMa20.value.toFixed(0);}
+    // Compute range from last 50 candles
+    if(data.length>10){
+      const recent=data.slice(-50);
+      ind.rh=Math.max(...recent.map(c=>c.high));
+      ind.rl=Math.min(...recent.map(c=>c.low));
+      ind.mid=(ind.rh+ind.rl)/2;
+      const range=ind.rh-ind.rl;
+      ind.fbh=ind.rh+range/2.6;
+      ind.fbl=ind.rl-range/2.6;
+      ind.enh=ind.rh+1.27*range;
+      ind.enl=ind.rl-1.27*range;
+      ind.emh=ind.rh+2.6*range;
+      ind.eml=ind.rl-2.6*range;
+      // ORE = 0.62 retracement of the range
+      ind.ore_sell=ind.rh-(range*0.62);
+      ind.ore_buy=ind.rl+(range*0.62);
+      updateInfoBar();
+      updateORELevels(data.slice(-1)[0].close);
     }
-    if(lastVWAP){
-      document.getElementById('ov-vwap').textContent='VWAP: '+lastVWAP.value.toFixed(0);
-      document.getElementById('tk-vwap').textContent=lastVWAP.value.toFixed(2);
-      indicators.vwap=lastVWAP.value;
-    }
-
-    // Dessiner les points pivots sur le graphique
-    if(data.length>1) drawPivotLines(data);
-
-  }catch(e){showErr('Graphique: '+e.message);}
-}
-
-function drawPivotLines(data){
-  const prev=data[data.length-2];
-  const pp=(prev.high+prev.low+prev.close)/3;
-  const r1=2*pp-prev.low;
-  const s1=2*pp-prev.high;
-  const r2=pp+(prev.high-prev.low);
-  const s2=pp-(prev.high-prev.low);
-  indicators.pivots={pp,r1,r2,s1,s2,r3:r1+(prev.high-prev.low),s3:s1-(prev.high-prev.low)};
+  }catch(e){showErr('Chart: '+e.message);}
 }
 
 function setTF(btn,tf){
@@ -527,12 +515,12 @@ function setTF(btn,tf){
   loadChart();
 }
 
-// ── PRIX ──────────────────────────────────────────────────
+// PRIX
 async function loadPrices(){
   try{
     const r=await fetch('/api/price/XAU%2FUSD');
     const d=await r.json();
-    if(d.price) updatePrice(d.price);
+    if(d.price)updatePrice(d.price);
   }catch(e){}
 }
 
@@ -540,378 +528,318 @@ function updatePrice(price){
   const diff=prevPrice?price-prevPrice:0;
   const pct=prevPrice?(diff/prevPrice*100):0;
   prevPrice=price;
-  
-  priceHistory.push(price);
-  if(priceHistory.length>200)priceHistory.shift();
-  
+  priceH.push(price);
+  if(priceH.length>200)priceH.shift();
   const fmt=p=>p.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});
   const sign=diff>=0?'+':'';
-  
-  // Ticker + main price
-  document.getElementById('tk-xau').textContent=fmt(price);
-  document.getElementById('tk-xau').className='tki-p '+(diff>=0?'up':'dn');
-  document.getElementById('tk-xau-c').textContent=sign+diff.toFixed(2);
-  document.getElementById('tk-upd').textContent=new Date().toLocaleTimeString('fr-FR');
+  const cls=diff>=0?'up':'dn';
   document.getElementById('price-main').textContent=fmt(price);
-  document.getElementById('price-main').className='ph-price '+(diff>=0?'up':'dn');
+  document.getElementById('price-main').className='ph-price '+cls;
   document.getElementById('price-chg').textContent=sign+diff.toFixed(2)+' ('+sign+pct.toFixed(2)+'%)';
-  document.getElementById('price-chg').className='ph-chg '+(diff>=0?'up':'dn');
+  document.getElementById('price-chg').className='ph-chg '+cls;
   document.getElementById('pnum').textContent=fmt(price);
-  document.getElementById('pnum').className='pnum '+(diff>=0?'up':'dn');
+  document.getElementById('pnum').className='pnum '+cls;
   document.getElementById('pchg').textContent=sign+diff.toFixed(2)+' ('+sign+pct.toFixed(2)+'%)';
-  document.getElementById('pchg').className='pchg '+(diff>=0?'up':'dn');
-
-  // Live candle
+  document.getElementById('pchg').className='pchg '+cls;
   if(liveC&&candles){
     liveC.close=price;
     if(price>liveC.high)liveC.high=price;
     if(price<liveC.low)liveC.low=price;
     try{candles.update({...liveC});}catch(e){}
   }
+  if(priceH.length>=10)computeAnalytics(price);
+  updateORELevels(price);
+  updateSweepDetector(price);
+}
 
-  // Calculs analytiques
-  if(priceHistory.length>=9){
-    computeAnalytics(price);
+function updateInfoBar(){
+  if(ind.rh){
+    const fmt=p=>p.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});
+    document.getElementById('ib-rh').textContent=fmt(ind.rh);
+    document.getElementById('ib-rl').textContent=fmt(ind.rl);
+    document.getElementById('ib-mid').textContent=fmt(ind.mid);
+    document.getElementById('cp-mid').textContent=fmt(ind.mid);
+    if(ind.vwap)document.getElementById('cp-vwap').textContent=fmt(ind.vwap);
   }
 }
 
-// ── ANALYTICS ──────────────────────────────────────────────
+// ANALYTICS
 function computeAnalytics(price){
-  const h=priceHistory;
-  const n=h.length;
-  
-  // ROC(9)
-  const roc9=n>=9?((h[n-1]-h[n-9])/h[n-9]*100):0;
-  indicators.roc=roc9;
-  
-  // Z-Score (vs moyenne 20 derniers)
-  const slice=h.slice(-20);
-  const mean=slice.reduce((a,b)=>a+b,0)/slice.length;
-  const std=Math.sqrt(slice.map(x=>(x-mean)**2).reduce((a,b)=>a+b,0)/slice.length);
+  const h=priceH;const n=h.length;
+  // ROC M10 (10 periodes = direction)
+  const roc10=n>=10?((h[n-1]-h[n-10])/h[n-10]*100):0;
+  // ROC M1 (1 periode = timing)
+  const roc1=n>=2?((h[n-1]-h[n-2])/h[n-2]*100):0;
+  ind.roc10=roc10;ind.roc1=roc1;
+  // W%R M10
+  const s10=h.slice(-10);
+  const hh10=Math.max(...s10),ll10=Math.min(...s10);
+  const wpr10=hh10!==ll10?((hh10-price)/(hh10-ll10)*-100):0;
+  // W%R M1
+  const s5=h.slice(-5);
+  const hh5=Math.max(...s5),ll5=Math.min(...s5);
+  const wpr1=hh5!==ll5?((hh5-price)/(hh5-ll5)*-100):0;
+  ind.wpr10=wpr10;ind.wpr1=wpr1;
+  // Z-Score 20 periodes
+  const s20=h.slice(-20);
+  const mean=s20.reduce((a,b)=>a+b,0)/s20.length;
+  const std=Math.sqrt(s20.map(x=>(x-mean)**2).reduce((a,b)=>a+b,0)/s20.length);
   const zscore=std>0?(price-mean)/std:0;
-  indicators.zscore=zscore;
-  
-  // ATR(7) simplifié
+  ind.zscore=zscore;
+  // ATR 7
   let atr=0;
-  if(n>=7){
-    for(let i=n-7;i<n;i++){
-      atr+=Math.abs(h[i]-(h[i-1]||h[i]));
-    }
-    atr/=7;
-  }
-  indicators.atr=atr;
-  
-  // WPR(14)
-  const s14=h.slice(-14);
-  const hh=Math.max(...s14),ll=Math.min(...s14);
-  const wpr=hh!==ll?((hh-price)/(hh-ll)*-100):0;
-  indicators.wpr=wpr;
-  
+  if(n>=7){for(let i=n-7;i<n;i++)atr+=Math.abs(h[i]-(h[i-1]||h[i]));atr/=7;}
+  ind.atr=atr;
+  // PVT simulé (tendance du momentum)
+  const pvt_up=roc10>0&&roc1>0;const pvt_dn=roc10<0&&roc1<0;
   // DEV%
   const dev=(price-mean)/mean*100;
-  indicators.dev=dev;
-  
-  // VWAP score
-  const vwapScore=indicators.vwap?(price>indicators.vwap?1:-1):0;
-  
-  // Afficher les indicateurs
-  setIndVal('v-zscore','t-zscore',zscore.toFixed(2),zscore<-1.6?'SURVENTE':zscore>1.6?'SURACHAT':'NEUTRE',zscore<-1.6||zscore>1.6?'ta':'tp');
-  setIndVal('v-roc','t-roc',roc9.toFixed(3)+'%',roc9>0?'HAUSSIER':'BAISSIER',roc9>0?'tg':'tr');
-  setIndVal('v-atr','t-atr',atr.toFixed(2),atr>2?'ÉLEVÉ':atr>1?'NORMAL':'FAIBLE',atr>2?'ta':'tg');
-  setIndVal('v-vwap','t-vwap',indicators.vwap?indicators.vwap.toFixed(2):'--',vwapScore>0?'DESSUS':'DESSOUS',vwapScore>0?'tg':'tr');
-  setIndVal('v-wpr','t-wpr',wpr.toFixed(1),wpr>-20?'SURACHAT':wpr<-80?'SURVENTE':'NEUTRE',wpr>-20||wpr<-80?'ta':'tp');
-  
-  document.getElementById('tk-zscore').textContent=zscore.toFixed(2);
-  document.getElementById('tk-zscore').className='tki-p '+(zscore<-1?'up':zscore>1?'dn':'ne');
-  document.getElementById('tk-roc').textContent=roc9.toFixed(2)+'%';
-  document.getElementById('tk-roc').className='tki-p '+(roc9>0?'up':'dn');
-  document.getElementById('tk-atr').textContent=atr.toFixed(2);
-  document.getElementById('tk-atr').className='tki-p '+(atr>2?'dn':'ne');
-  
-  // DEV badge
+  // VWAP biais
+  const vwapBiais=ind.vwap?price>ind.vwap?1:-1:0;
+
+  // Update UI
+  const fmt2=v=>(v>=0?'+':'')+v.toFixed(3)+'%';
+  const fmt1=v=>(v>=0?'+':'')+v.toFixed(4)+'%';
+  setInd('v-roc10','t-roc10',fmt2(roc10),roc10>0?'HAUSSIER':'BAISSIER',roc10>0?'tg':'tr');
+  setInd('v-roc1','t-roc1',fmt1(roc1),roc1>0?'HAUSSIER':'BAISSIER',roc1>0?'tg':'tr');
+  setInd('v-wpr10','t-wpr10',wpr10.toFixed(1),wpr10>-20?'SURACHAT':wpr10<-80?'SURVENTE':'NEUTRE',wpr10>-20||wpr10<-80?'ta':'tp');
+  setInd('v-wpr1','t-wpr1',wpr1.toFixed(1),wpr1>-20?'SURACHAT':wpr1<-80?'SURVENTE':'NEUTRE',wpr1>-20||wpr1<-80?'ta':'tp');
+  setInd('v-zscore','t-zscore',zscore.toFixed(2),zscore<-2?'EXCÈS BAS':zscore>2?'EXCÈS HAUT':Math.abs(zscore)>1?'ANORMAL':'NORMAL',Math.abs(zscore)>2?'tr':Math.abs(zscore)>1?'ta':'tg');
+  setInd('v-pvt','t-pvt',pvt_up?'HAUSSIER':pvt_dn?'BAISSIER':'MIXTE',pvt_up?'Mouvement confirmé':pvt_dn?'Mouvement fragile':'Divergence',pvt_up?'tg':pvt_dn?'tr':'ta');
+
+  document.getElementById('ib-z').textContent=zscore.toFixed(2);
+  document.getElementById('ib-z').className='ib-v '+(Math.abs(zscore)>2?'dn':Math.abs(zscore)>1?'ne':'up');
+  document.getElementById('ib-roc10').textContent=(roc10>=0?'+':'')+roc10.toFixed(2)+'%';
+  document.getElementById('ib-roc10').className='ib-v '+(roc10>0?'up':'dn');
+  document.getElementById('ib-roc1').textContent=(roc1>=0?'+':'')+roc1.toFixed(3)+'%';
+  document.getElementById('ib-roc1').className='ib-v '+(roc1>0?'up':'dn');
+  document.getElementById('ib-wpr10').textContent=wpr10.toFixed(1);
+  document.getElementById('ib-atr').textContent=atr.toFixed(2);
+
+  // VWAP
+  if(ind.vwap){
+    const dvwap=((price-ind.vwap)/ind.vwap*100);
+    setInd('v-vwap','t-vwap',ind.vwap.toFixed(2),price>ind.vwap?'DESSUS':'DESSOUS',price>ind.vwap?'tg':'tr');
+    setInd('v-dvwap','t-dvwap',(dvwap>=0?'+':'')+dvwap.toFixed(2)+'%',Math.abs(dvwap)>1?'DISTANT':'PROCHE',Math.abs(dvwap)>2?'ta':'tp');
+    document.getElementById('ib-vwap').textContent=ind.vwap.toFixed(2);
+    document.getElementById('cp-vwap').textContent=ind.vwap.toFixed(2);
+    document.getElementById('ov-vwap').textContent='VWAP: '+ind.vwap.toFixed(0);
+    // VWAP biais box
+    const box=document.getElementById('vwap-biais-box');
+    const status=document.getElementById('vb-status');
+    const action=document.getElementById('vb-action');
+    if(price>ind.vwap){
+      box.className='vwap-biais vb-buy';
+      status.textContent='PRIORITÉ ACHAT';status.className='vb-status up';
+      action.textContent='Prix au-dessus VWAP — Les acheteurs ont le contrôle. Chercher anomalies baissières (englobantes) pour acheter le rejet.';
+    }else{
+      box.className='vwap-biais vb-sell';
+      status.textContent='PRIORITÉ VENTE';status.className='vb-status dn';
+      action.textContent='Prix sous VWAP — Les vendeurs ont le contrôle. Chercher anomalies haussières (englobantes) pour vendre le rejet.';
+    }
+  }
+
+  // ATR gauge
+  const atrPct=Math.min(100,atr/3*100);
+  const atrFill=document.getElementById('atr-fill');
+  atrFill.style.width=atrPct+'%';
+  atrFill.style.background=atr<1?'var(--tx3)':atr<2.5?'var(--gr)':'var(--re)';
+  document.getElementById('v-atr').textContent=atr.toFixed(2);
+  document.getElementById('ib-atr').textContent=atr.toFixed(2);
+  document.getElementById('atr-advice').textContent=atr<1?'⚠️ ATR FAIBLE — Marché sans direction, objectifs limités':atr<2.5?'✅ ATR OPTIMAL — Conditions favorables pour le système KMM':'🔴 ATR ÉLEVÉ — Réduire la taille de position, élargir le SL';
+
+  // DEV
   const devEl=document.getElementById('dev-badge');
-  devEl.textContent='DEV: '+(dev>=0?'+':'')+dev.toFixed(2)+'%';
-  devEl.className='badge '+(Math.abs(dev)>1.5?'b-re':'b-am');
-  
-  // Momentum scale
-  updateMomentum(roc9,zscore,vwapScore,wpr);
-  
-  // MTF alignment
-  updateMTF(roc9,zscore,vwapScore,wpr);
-  
-  // Pivot points
-  updatePivots(price);
-  
-  // Signal global
-  computeSignal(price,roc9,zscore,vwapScore,wpr,atr);
-  
-  // Alertes
-  updateAlertes(price,zscore,wpr,atr);
+  devEl.textContent='DEV '+(dev>=0?'+':'')+dev.toFixed(2)+'%';
+  devEl.className='badge '+(Math.abs(dev)>1.5?'b-re':Math.abs(dev)>0.8?'b-am':'b-pu');
+
+  // MTF
+  updateMTF(roc10,roc1,wpr10,wpr1,vwapBiais);
+  // Dashboard 5 étoiles
+  updateDashboard5(price,roc10,roc1,wpr10,wpr1,zscore,pvt_up,pvt_dn);
+  // Momentum rule
+  const momEl=document.getElementById('mom-rule');
+  if(roc10>0&&roc1>0)momEl.style.color='var(--gr2)';
+  else if(roc10<0&&roc1<0)momEl.style.color='var(--re2)';
+  else momEl.style.color='var(--tx3)';
 }
 
-function setIndVal(vid,tid,val,label,cls){
-  const ve=document.getElementById(vid);
-  const te=document.getElementById(tid);
+function setInd(vid,tid,val,label,cls){
+  const ve=document.getElementById(vid);const te=document.getElementById(tid);
   if(ve)ve.textContent=val;
   if(te){te.textContent=label;te.className='tag '+cls;}
 }
 
-function updateMomentum(roc,zscore,vwap,wpr){
-  // Score de -100 à +100
-  let score=0;
-  score+=roc>0?Math.min(roc*10,40):-Math.min(Math.abs(roc)*10,40);
-  score+=zscore<-1.6?30:zscore>1.6?-30:0;
-  score+=vwap*20;
-  score+=wpr<-80?20:wpr>-20?-20:0;
-  score=Math.max(-100,Math.min(100,score));
-  
-  const pct=(score+100)/2; // 0-100%
-  const bar=document.getElementById('mom-bar');
-  const badge=document.getElementById('mom-badge');
-  const desc=document.getElementById('mom-desc');
-  const ibMom=document.getElementById('ib-mom');
-  
-  if(score>30){
-    bar.style.width=pct+'%';
-    bar.style.background='var(--gr)';
-    bar.style.marginLeft='0';
-    badge.textContent='ACHAT FORT';badge.className='badge b-gr';
-    desc.textContent='Domination acheteuse. Momentum positif. Cassures haussières confirmées.';
-    ibMom.textContent='ACHAT FORT';ibMom.className='ib-v up';
-  }else if(score<-30){
-    bar.style.width=(100-pct)+'%';
-    bar.style.background='var(--re)';
-    bar.style.marginLeft=pct+'%';
-    badge.textContent='VENTE FORTE';badge.className='badge b-re';
-    desc.textContent='Domination vendeuse absolue. Accélération baissière. Déclenchement liquidations.';
-    ibMom.textContent='VENTE FORTE';ibMom.className='ib-v dn';
-  }else{
-    bar.style.width='6px';
-    bar.style.background='var(--tx3)';
-    bar.style.marginLeft='47%';
-    badge.textContent='NEUTRE';badge.className='badge b-pu';
-    desc.textContent='Phase de compression. Hésitation du marché. Transition avant prochaine impulsion.';
-    ibMom.textContent='NEUTRE';ibMom.className='ib-v ne';
-  }
-  
-  const buyPct=Math.round(Math.max(20,Math.min(80,50+score/2)));
-  document.getElementById('ib-buy').textContent=buyPct+'%';
-  document.getElementById('ib-sell').textContent=(100-buyPct)+'%';
-  
-  return score;
-}
-
-function updateMTF(roc,zscore,vwap,wpr){
-  // Simuler les timeframes avec des poids décroissants (comme KMM)
+function updateMTF(roc10,roc1,wpr10,wpr1,vwap){
   const weights=[1.0,0.85,0.70,0.50,0.25,0.10];
-  const labels=['1M','5M','15M','1H','4H','D'];
-  const base=roc*0.4+zscore*0.3+vwap*0.2+(wpr<-80?0.1:wpr>-20?-0.1:0);
-  
-  const cells=document.getElementById('mtf-grid').children;
-  let bullCount=0;
-  const mtfStates=[];
-  
-  for(let i=0;i<6;i++){
+  const ids=['mtf-1m','mtf-5m','mtf-15m','mtf-1h','mtf-4h','mtf-d'];
+  const base=(roc10>0?1:roc10<0?-1:0)*0.5+(roc1>0?1:roc1<0?-1:0)*0.3+vwap*0.2;
+  let bulls=0;
+  ids.forEach((id,i)=>{
     const noise=(Math.random()-0.5)*0.3;
     const val=base*weights[i]+noise;
-    const isBull=val>0.1;
-    const isBear=val<-0.1;
-    if(isBull)bullCount++;
-    mtfStates.push(isBull?1:isBear?-1:0);
-    cells[i].textContent=isBull?'ACHAT':isBear?'VENTE':'NEUTRE';
-    cells[i].className='mtf-cell '+(isBull?'mtf-buy':isBear?'mtf-sell':'mtf-neu');
-  }
-  
-  const desc=document.getElementById('mtf-desc');
-  const conf=document.getElementById('ib-conf');
-  conf.textContent=bullCount+'/6 TF';
-  
-  if(bullCount>=5){
-    desc.textContent='⚡ ALIGNEMENT PARFAIT HAUSSIER — 1M+5M+15M+1H alignés. Impulsion haussière probable.';
-    desc.style.color='var(--gr2)';
-  }else if(bullCount<=1){
-    desc.textContent='⚡ ALIGNEMENT PARFAIT BAISSIER — Cascade vendeuse confirmée sur tous les TF.';
-    desc.style.color='var(--re2)';
-  }else if(bullCount>=3){
-    desc.textContent='Tendance haussière dominante. Attendre confirmation 1M+5M avant entrée.';
-    desc.style.color='var(--am2)';
-  }else{
-    desc.textContent='Pas d\'alignement clair. Rester en WAIT. Bruit de marché.';
-    desc.style.color='var(--tx3)';
-  }
-  
-  // Matrice de confluence
-  updateMatrix(mtfStates);
-  
-  return bullCount;
-}
-
-function updateMatrix(mtfStates){
-  const indicators_list=['ROC','VWAP','ATR','WPR','Z-Score','MA200'];
-  const inds=indicators;
-  let html='<tr><th></th><th>1M</th><th>5M</th><th>15M</th><th>1H</th><th>4H</th><th>D</th></tr>';
-  
-  indicators_list.forEach((ind,i)=>{
-    html+='<tr><td style="color:var(--tx4);text-align:left;font-size:8px">'+ind+'</td>';
-    for(let t=0;t<6;t++){
-      const noise=(Math.random()-0.5)*0.5;
-      const val=mtfStates[t]+(i%2===0?noise:-noise);
-      const cls=val>0.2?'mc-g':val<-0.2?'mc-r':'mc-n';
-      const sym=val>0.2?'●':val<-0.2?'●':'·';
-      html+='<td class="'+cls+'">'+sym+'</td>';
-    }
-    html+='</tr>';
+    const el=document.getElementById(id);
+    if(val>0.15){el.textContent='ACHAT';el.className='mtf-dot mtf-buy';bulls++;}
+    else if(val<-0.15){el.textContent='VENTE';el.className='mtf-dot mtf-sell';}
+    else{el.textContent='NEUTRE';el.className='mtf-dot mtf-neu';}
   });
-  document.getElementById('matrix').innerHTML=html;
+  const res=document.getElementById('mtf-result');
+  if(bulls>=5){res.textContent='⚡ ALIGNEMENT PARFAIT HAUSSIER — Cascade 1M→5M→15M validée. Impulsion probable.';res.style.color='var(--gr2)';}
+  else if(bulls<=1){res.textContent='⚡ ALIGNEMENT PARFAIT BAISSIER — Cascade vendeuse confirmée sur tous les TF.';res.style.color='var(--re2)';}
+  else if(bulls>=4){res.textContent='Tendance haussière dominante. Attendre confirmation M1 avant entrée.';res.style.color='var(--am2)';}
+  else if(bulls<=2){res.textContent='Tendance baissière dominante. Attendre confirmation M1 avant entrée.';res.style.color='var(--am2)';}
+  else{res.textContent='Pas d\'alignement clair — WAIT. Bruit de marché.';res.style.color='var(--tx3)';}
 }
 
-function updatePivots(price){
-  if(!indicators.pivots)return;
-  const {pp,r1,r2,r3,s1,s2,s3}=indicators.pivots;
-  const fmt=p=>p.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});
-  
-  document.getElementById('ib-pp').textContent=fmt(pp);
-  document.getElementById('cp-pp').textContent=fmt(pp);
-  
-  const biais=price>pp?'AU-DESSUS PP':'EN-DESSOUS PP';
-  const biaisEl=document.getElementById('ib-biais');
-  biaisEl.textContent=biais;
-  biaisEl.className='ib-v '+(price>pp?'up':'dn');
-  
-  const pivotPos=document.getElementById('pivot-pos');
-  if(price>r2){pivotPos.textContent='ZONE R2+';pivotPos.className='badge b-re';}
-  else if(price>r1){pivotPos.textContent='ZONE R1-R2';pivotPos.className='badge b-am';}
-  else if(price>pp){pivotPos.textContent='PP → R1';pivotPos.className='badge b-gr';}
-  else if(price>s1){pivotPos.textContent='S1 → PP';pivotPos.className='badge b-am';}
-  else if(price>s2){pivotPos.textContent='ZONE S1-S2';pivotPos.className='badge b-re';}
-  else{pivotPos.textContent='ZONE S2-S3';pivotPos.className='badge b-re';}
-  
-  const levels=[
-    {name:'R3',val:r3,color:'#a32d2d',desc:'Résistance extrême'},
-    {name:'R2',val:r2,color:'#d85a30',desc:'Résistance majeure'},
-    {name:'R1',val:r1,color:'#f09090',desc:'Première réaction'},
-    {name:'PP',val:pp,color:'#7F77DD',desc:'Centre d\'équilibre'},
-    {name:'S1',val:s1,color:'#90d0a0',desc:'Premier support'},
-    {name:'S2',val:s2,color:'#1d9e75',desc:'Support majeur'},
-    {name:'S3',val:s3,color:'#0f6e56',desc:'Support extrême'},
+// DASHBOARD 5 ÉTOILES
+function updateDashboard5(price,roc10,roc1,wpr10,wpr1,zscore,pvt_up,pvt_dn){
+  if(!ind.rh||!ind.rl)return;
+  const range=ind.rh-ind.rl;
+  // ⭐1 Structure (range calculé)
+  const s1=range>0;
+  // ⭐2 Prix financé (entre RL et RH)
+  const s2=price>=ind.rl&&price<=ind.rh;
+  // ⭐3 Excès pris (proche FBH pour sell, proche FBL pour buy)
+  const nearFBH=ind.fbh&&Math.abs(price-ind.fbh)/price<0.005;
+  const nearFBL=ind.fbl&&Math.abs(price-ind.fbl)/price<0.005;
+  const wasAboveFBH=priceH.some(p=>p>ind.rh);
+  const wasBelowFBL=priceH.some(p=>p<ind.rl);
+  const s3=wasAboveFBH||wasBelowFBL;
+  // ⭐4 ORE actif
+  const nearORESell=ind.ore_sell&&Math.abs(price-ind.ore_sell)/price<0.005;
+  const nearOREBuy=ind.ore_buy&&Math.abs(price-ind.ore_buy)/price<0.005;
+  const s4=nearORESell||nearOREBuy;
+  // ⭐5 Confirmation (M1 en baisse pour sell, hausse pour buy + WPR sort excès)
+  const confirmSell=roc1<0&&wpr1<-70&&wasAboveFBH;
+  const confirmBuy=roc1>0&&wpr1>-30&&wasBelowFBL;
+  const s5=confirmSell||confirmBuy;
+
+  const stars=[
+    {n:'⭐1',label:'STRUCTURE',sub:'Range exploitable calculé',ok:s1},
+    {n:'⭐2',label:'PRIX FINANCÉ',sub:'Close entre RL et RH',ok:s2},
+    {n:'⭐3',label:'EXCÈS PRIS',sub:'FBH touché (SELL) / FBL touché (BUY)',ok:s3},
+    {n:'⭐4',label:'ORE ACTIF',sub:'Prix dans la zone 0.62 de retracement',ok:s4},
+    {n:'⭐5',label:'BREAK MICRO-STRUCT',sub:'Confirmation M1 + W%R sort excès',ok:s5},
   ];
-  
-  const range=r3-s3;
-  document.getElementById('pivot-list').innerHTML=levels.map(l=>{
-    const pct=range>0?Math.max(0,Math.min(100,(l.val-s3)/range*100)):50;
+
+  let score=stars.filter(s=>s.ok).length;
+  document.getElementById('star-score').textContent=score+'/5';
+  document.getElementById('star-score').className='badge '+(score>=5?'b-gr':score>=3?'b-am':'b-re');
+
+  document.getElementById('dashboard5').innerHTML=stars.map(s=>`
+    <div class="star-row">
+      <span class="star-icon">${s.n}</span>
+      <div class="star-label"><div>${s.label}</div><div style="font-size:8px;color:var(--tx3)">${s.sub}</div></div>
+      <span class="star-status ${s.ok?'s-ok':'s-no'}">${s.ok?'✅ OK':'❌ NON'}</span>
+    </div>`).join('');
+
+  // Signal
+  const sigEl=document.getElementById('entry-signal');
+  const sigBox=document.getElementById('main-signal');
+  if(score>=5&&confirmSell){
+    sigEl.textContent='🔴 ENTRÉE SELL AUTORISÉE — ⭐5 VALIDÉE';
+    sigEl.style.background='rgba(216,90,48,0.15)';sigEl.style.color='var(--re2)';
+    sigBox.textContent='SELL NOW ▼';sigBox.className='signal-box sig-sell';
+  }else if(score>=5&&confirmBuy){
+    sigEl.textContent='🟢 ENTRÉE BUY AUTORISÉE — ⭐5 VALIDÉE';
+    sigEl.style.background='rgba(29,158,117,0.15)';sigEl.style.color='var(--gr2)';
+    sigBox.textContent='BUY NOW ▲';sigBox.className='signal-box sig-buy';
+  }else if(score>=3){
+    sigEl.textContent='👀 SETUP EN FORMATION — Attendre ⭐5';
+    sigEl.style.background='rgba(239,159,39,0.1)';sigEl.style.color='var(--am2)';
+    sigBox.textContent='WATCH 👀';sigBox.className='signal-box sig-obs';
+  }else if(s1){
+    sigEl.textContent='⏳ MODE OBSERVATION — Structure validée, attendre le sweep';
+    sigEl.style.background='rgba(83,74,183,0.1)';sigEl.style.color='var(--pu2)';
+    sigBox.textContent='OBSERVATION';sigBox.className='signal-box sig-obs';
+  }else{
+    sigEl.textContent='⛔ HORS STRUCTURE — ⭐1 non validée';
+    sigEl.style.background='var(--c3)';sigEl.style.color='var(--tx4)';
+    sigBox.textContent='HORS STRUCT.';sigBox.className='signal-box sig-wait';
+  }
+
+  // ORE direction
+  const oreDir=document.getElementById('ore-dir');
+  if(wasAboveFBH){oreDir.textContent='ORE SELL';oreDir.className='badge b-re';}
+  else if(wasBelowFBL){oreDir.textContent='ORE BUY';oreDir.className='badge b-gr';}
+  else{oreDir.textContent='EN ATTENTE';oreDir.className='badge b-pu';}
+}
+
+// ORE LEVELS
+function updateORELevels(price){
+  if(!ind.rh||!ind.rl)return;
+  const fmt=p=>p.toLocaleString('fr-FR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const range=ind.rh-ind.rl;
+  const levels=[
+    {name:'EMH',val:ind.emh,color:'#a32d2d',desc:'Extension Maj. H'},
+    {name:'ENH',val:ind.enh,color:'#d85a30',desc:'Extension H'},
+    {name:'FBH',val:ind.fbh,color:'#f09090',desc:'First Break High'},
+    {name:'RH',val:ind.rh,color:'#f5c842',desc:'Range High (Stop Hunt ↑)'},
+    {name:'ORE-S',val:ind.ore_sell,color:'#7F77DD',desc:'ORE Sell Zone 0.62'},
+    {name:'MID',val:ind.mid,color:'#5DCAA5',desc:'MID — TP1 naturel'},
+    {name:'ORE-B',val:ind.ore_buy,color:'#7F77DD',desc:'ORE Buy Zone 0.62'},
+    {name:'RL',val:ind.rl,color:'#f5c842',desc:'Range Low (Stop Hunt ↓)'},
+    {name:'FBL',val:ind.fbl,color:'#90d0b0',desc:'First Break Low'},
+    {name:'ENL',val:ind.enl,color:'#1d9e75',desc:'Extension L'},
+    {name:'EML',val:ind.eml,color:'#0f6e56',desc:'Extension Maj. L'},
+  ];
+  const maxVal=ind.emh,minVal=ind.eml,totalRange=maxVal-minVal;
+  document.getElementById('ore-levels').innerHTML=levels.map(l=>{
+    if(!l.val)return'';
+    const pct=totalRange>0?Math.max(2,Math.min(98,(l.val-minVal)/totalRange*100)):50;
     const dist=((l.val-price)/price*100).toFixed(2);
     const isActive=Math.abs(l.val-price)/price<0.003;
-    return`<div class="pivot-row" style="${isActive?'background:rgba(83,74,183,0.08);border-radius:4px;padding:4px;':''}">
-      <span class="pivot-name" style="color:${l.color}">${l.name}</span>
-      <div class="pivot-bar-wrap"><div class="pivot-bar" style="width:${pct}%;background:${l.color}"></div></div>
-      <span class="pivot-val" style="color:${l.color}">${fmt(l.val)}</span>
-      <span class="pivot-desc">${dist>=0?'+':''}${dist}%</span>
+    return`<div class="ore-row" style="${isActive?'background:rgba(83,74,183,0.1);border-radius:4px;padding:2px 4px;':''}">
+      <span class="ore-name" style="color:${l.color}">${l.name}</span>
+      <div class="ore-bar-wrap"><div class="ore-bar" style="width:${pct}%;background:${l.color}"></div></div>
+      <span class="ore-val" style="color:${l.color}">${fmt(l.val)}</span>
+      <span class="ore-dist">${dist>=0?'+':''}${dist}%</span>
     </div>`;
   }).join('');
+  document.getElementById('ov-ore').textContent='ORE: '+fmt(ind.ore_sell||0);
 }
 
-function computeSignal(price,roc,zscore,vwap,wpr,atr){
-  const piv=indicators.pivots;
-  const ma20=indicators.vwap; // using vwap as proxy
-  
-  let score=0;
-  const checks=[];
-  
-  // Check 1: Structure (pivot)
-  const c1=piv&&price>piv.pp;
-  checks.push({label:'Prix au-dessus du Pivot (PP)',ok:c1,desc:piv?'PP = '+piv.pp.toFixed(2):'--'});
-  if(c1)score++;
-  
-  // Check 2: Signal 1M
-  const c2=roc>0;
-  checks.push({label:'ROC(9) positif — momentum 1M',ok:c2,desc:'ROC = '+(roc>0?'+':'')+roc.toFixed(3)+'%'});
-  if(c2)score++;
-  
-  // Check 3: Z-Score
-  const c3=zscore<-1.6||zscore>1.6;
-  checks.push({label:'Z-Score en zone extrême',ok:c3,desc:'Z = '+zscore.toFixed(2)+(zscore<-1.6?' SURVENTE':zscore>1.6?' SURACHAT':' NEUTRE')});
-  if(c3)score++;
-  
-  // Check 4: VWAP
-  const c4=vwap>0;
-  checks.push({label:'Prix au-dessus du VWAP',ok:c4,desc:indicators.vwap?'VWAP = '+indicators.vwap.toFixed(2):'--'});
-  if(c4)score++;
-  
-  // Check 5: WPR
-  const c5=wpr<-80||wpr>-20;
-  checks.push({label:'WPR en zone extrême (survente/surachat)',ok:c5,desc:'WPR = '+wpr.toFixed(1)});
-  if(c5)score++;
-  
-  // Check 6: ATR normal
-  const c6=atr<2;
-  checks.push({label:'ATR normal (pas de volatilité extrême)',ok:c6,desc:'ATR = '+atr.toFixed(2)+(atr>2?' ÉLEVÉ':' NORMAL')});
-  if(c6)score++;
-  
-  // Check 7: Pas de news HIGH
-  const c7=true; // Manuel
-  checks.push({label:'Pas d\'annonce HIGH IMPACT proche',ok:null,desc:'Vérifier le calendrier Investing.com'});
-  
-  // Check 8: Confluence 3+ TF
-  const c8=parseInt(document.getElementById('ib-conf').textContent)>=3;
-  checks.push({label:'Confluence ≥ 3 timeframes alignés',ok:c8,desc:document.getElementById('ib-conf').textContent+' alignés'});
-  if(c8)score++;
-  
-  // Checklist
-  document.getElementById('check-score').textContent=score+'/8';
-  document.getElementById('check-score').className='badge '+(score>=6?'b-gr':score>=4?'b-am':'b-re');
-  
-  document.getElementById('checklist').innerHTML=checks.map(c=>`
-    <div class="check-item">
-      <div class="chk ${c.ok===null?'chk-neu':c.ok?'chk-ok':'chk-no'}">${c.ok===null?'?':c.ok?'✓':'✗'}</div>
-      <div style="flex:1">
-        <div>${c.label}</div>
-        <div style="font-size:9px;color:var(--tx3);margin-top:1px">${c.desc}</div>
-      </div>
-    </div>`).join('');
-  
-  // Score global
-  const scoreNorm=Math.round(score/8*100);
-  document.getElementById('ib-score').textContent=scoreNorm+'/100';
-  document.getElementById('ib-score').className='ib-v '+(scoreNorm>=75?'up':scoreNorm>=50?'ne':'dn');
-  
-  // Signal final
-  const sig=document.getElementById('main-signal');
-  const isBull=c1&&c2&&score>=6;
-  const isBear=!c1&&!c2&&score>=6;
-  if(isBull){
-    sig.textContent='BUY NOW ▲';sig.className='signal-main sig-buy';
-  }else if(isBear){
-    sig.textContent='SELL NOW ▼';sig.className='signal-main sig-sell';
-  }else if(score>=4){
-    sig.textContent=c2?'BUY ~ 👀':'SELL ~ 👀';sig.className='signal-main sig-wait';
+// SWEEP DETECTOR
+function updateSweepDetector(price){
+  if(!ind.rh||!ind.rl)return;
+  const box=document.getElementById('sweep-box');
+  const wasAbove=priceH.some(p=>p>ind.rh);
+  const wasBelow=priceH.some(p=>p<ind.rl);
+  const backInRange=price>=ind.rl&&price<=ind.rh;
+  if(wasAbove&&backInRange){
+    box.className='sweep-box sweep-active';
+    box.innerHTML='<div class="sweep-title" style="color:var(--re2)">🎯 SWEEP HIGH DÉTECTÉ</div><div class="sweep-desc">Prix a dépassé RH ('+ind.rh.toFixed(2)+') et est revenu dans le range.<br>→ Surveiller ORE SELL à '+ind.ore_sell.toFixed(2)+'<br>→ Attendre rejet + break micro-structure</div>';
+  }else if(wasBelow&&backInRange){
+    box.className='sweep-box sweep-active';
+    box.innerHTML='<div class="sweep-title" style="color:var(--gr2)">🎯 SWEEP LOW DÉTECTÉ</div><div class="sweep-desc">Prix a dépassé RL ('+ind.rl.toFixed(2)+') et est revenu dans le range.<br>→ Surveiller ORE BUY à '+ind.ore_buy.toFixed(2)+'<br>→ Attendre rejet + break micro-structure</div>';
+  }else if(wasAbove&&!backInRange){
+    box.className='sweep-box sweep-active';
+    box.innerHTML='<div class="sweep-title" style="color:var(--am2)">⚡ EXCÈS HAUSSIER — Hors range</div><div class="sweep-desc">Prix au-dessus de RH ('+ind.rh.toFixed(2)+').<br>→ Attendre le retour dans le range avant de trader.</div>';
+  }else if(wasBelow&&!backInRange){
+    box.className='sweep-box sweep-active';
+    box.innerHTML='<div class="sweep-title" style="color:var(--am2)">⚡ EXCÈS BAISSIER — Hors range</div><div class="sweep-desc">Prix en dessous de RL ('+ind.rl.toFixed(2)+').<br>→ Attendre le retour dans le range avant de trader.</div>';
   }else{
-    sig.textContent='WAIT ◆';sig.className='signal-main sig-wait';
+    box.className='sweep-box sweep-none';
+    box.innerHTML='<div class="sweep-title ne">⏳ En surveillance...</div><div class="sweep-desc">Attendre un sweep RH ou RL suivi d\'un retour dans le range. Sweep seul = pas de trade.</div>';
   }
 }
 
-function updateAlertes(price,zscore,wpr,atr){
-  const piv=indicators.pivots;
-  const alerts=[];
-  
-  if(piv){
-    if(Math.abs(price-piv.r1)/price<0.003) alerts.push({c:'ar',m:'🔴 Résistance R1 proche ('+piv.r1.toFixed(2)+') — Zone de rejet institutionnel'});
-    if(Math.abs(price-piv.r2)/price<0.003) alerts.push({c:'ar',m:'🔴 RÉSISTANCE MAJEURE R2 ('+piv.r2.toFixed(2)+') — Risque correction élevé'});
-    if(Math.abs(price-piv.s1)/price<0.003) alerts.push({c:'ag',m:'✅ Support S1 tenu ('+piv.s1.toFixed(2)+') — Zone d\'achat institutionnel potentiel'});
-    if(Math.abs(price-piv.s2)/price<0.003) alerts.push({c:'ag',m:'✅ SUPPORT MAJEUR S2 ('+piv.s2.toFixed(2)+') — Zone d\'accumulation forte'});
-    if(Math.abs(price-piv.pp)/price<0.002) alerts.push({c:'aa',m:'⚠️ Prix au PIVOT PP ('+piv.pp.toFixed(2)+') — Zone de décision critique'});
-  }
-  
-  if(zscore<-1.6) alerts.push({c:'ag',m:'✅ Z-Score SURVENTE ('+zscore.toFixed(2)+') — Retournement haussier statistiquement probable'});
-  if(zscore>1.6) alerts.push({c:'ar',m:'🔴 Z-Score SURACHAT ('+zscore.toFixed(2)+') — Retournement baissier statistiquement probable'});
-  if(wpr<-80) alerts.push({c:'ag',m:'✅ WPR SURVENTE ('+wpr.toFixed(1)+') — Williams %R en zone extrême basse'});
-  if(wpr>-20) alerts.push({c:'ar',m:'🔴 WPR SURACHAT ('+wpr.toFixed(1)+') — Williams %R en zone extrême haute'});
-  if(atr>2) alerts.push({c:'aa',m:'⚠️ ATR ÉLEVÉ ('+atr.toFixed(2)+') — Volatilité anormale, réduire la taille de position'});
-  
-  if(!alerts.length) alerts.push({c:'ap',m:'⏸ Pas de signal fort — WAIT. Attendre un setup de qualité institutionnelle.'});
-  document.getElementById('alertes').innerHTML=alerts.map(a=>`<div class="alrt ${a.c}">${a.m}</div>`).join('');
+// SESSIONS
+function updateSessions(){
+  const h=new Date().getHours();
+  const list=[
+    {n:'🌏 Asiatique — Construction',t:'00h–09h',on:h>=0&&h<8},
+    {n:'🇬🇧 Londres — Impulsion',t:'08h–17h',on:h>=8&&h<13},
+    {n:'⚡ Overlap LDN/NY',t:'13h30–17h',on:h>=13&&h<17},
+    {n:'🇺🇸 New York — Continuation',t:'13h30–22h',on:h>=17&&h<22},
+  ];
+  document.getElementById('sessions').innerHTML=list.map(s=>
+    `<div class="sess"><div class="sdot ${s.on?'on':'off'}"></div><div class="sn">${s.n}</div><div class="st2">${s.t}</div>${s.on?'<span class="slive">LIVE</span>':''}</div>`
+  ).join('');
+  document.getElementById('ib-sess').textContent=list.find(s=>s.on)?.n||'Hors session';
 }
 
-// ── LOAD ALL ──────────────────────────────────────────────
+// LOAD ALL
 async function loadAll(){
   hideErr();
   await loadChart();
@@ -921,72 +849,18 @@ async function loadAll(){
       fetch('/api/indicators/XAU%2FUSD').then(r=>r.json()),
     ]);
     const price=parseFloat(quote.close||quote.price||0);
-    if(quote.open)document.getElementById('ps-o').textContent=parseFloat(quote.open).toFixed(2);
-    if(quote.high)document.getElementById('ps-h').textContent=parseFloat(quote.high).toFixed(2);
-    if(quote.low)document.getElementById('ps-l').textContent=parseFloat(quote.low).toFixed(2);
-    if(quote.previous_close)document.getElementById('ps-p').textContent=parseFloat(quote.previous_close).toFixed(2);
-    if(quote.open)document.getElementById('cp-o').textContent=parseFloat(quote.open).toFixed(2);
-    if(quote.high)document.getElementById('cp-h').textContent=parseFloat(quote.high).toFixed(2);
-    if(quote.low)document.getElementById('cp-l').textContent=parseFloat(quote.low).toFixed(2);
-    
-    const{ma20,ma50,ma200,rsi}=inds;
-    if(ma200!=null){
-      document.getElementById('v-ma200').textContent=ma200.toFixed(2);
-      const t=document.getElementById('t-ma200');
-      t.textContent=price>ma200?'HAUSSIER':'BAISSIER';
-      t.className='tag '+(price>ma200?'tg':'tr');
-      indicators.ma200=ma200;
+    if(quote.open){document.getElementById('ph-o').textContent=parseFloat(quote.open).toFixed(2);document.getElementById('cp-o').textContent=parseFloat(quote.open).toFixed(2);}
+    if(quote.high){document.getElementById('ph-h').textContent=parseFloat(quote.high).toFixed(2);document.getElementById('cp-h').textContent=parseFloat(quote.high).toFixed(2);}
+    if(quote.low){document.getElementById('ph-l').textContent=parseFloat(quote.low).toFixed(2);document.getElementById('cp-l').textContent=parseFloat(quote.low).toFixed(2);}
+    if(quote.previous_close)document.getElementById('ph-p').textContent=parseFloat(quote.previous_close).toFixed(2);
+    if(inds.rsi!=null){
+      document.getElementById('ov-rsi').textContent='RSI: '+parseFloat(inds.rsi).toFixed(1);
     }
-    if(rsi!=null){
-      document.getElementById('v-rsi').textContent=rsi.toFixed(1);
-      document.getElementById('ov-rsi').textContent='RSI: '+rsi.toFixed(1);
-      const t=document.getElementById('t-rsi');
-      if(rsi>70){t.textContent='SURACHETÉ';t.className='tag tr';}
-      else if(rsi<30){t.textContent='SURVENDU';t.className='tag tg';}
-      else{t.textContent='NEUTRE';t.className='tag tp';}
-    }
-    
-    // Corrélations simulées (on a pas accès au DXY/SPX sans clé supplémentaire)
-    updateCorrelations();
     hideErr();
   }catch(e){showErr(e.message);}
 }
 
-function updateCorrelations(){
-  // Corrélations basées sur le momentum actuel de l'or
-  const roc=indicators.roc||0;
-  const items=[
-    {id:'dxy',val:(-roc*1.2).toFixed(2),desc:roc>0?'OR↑ = DXY↓':'OR↓ = DXY↑',pct:50-roc*5},
-    {id:'10y',val:(-roc*0.8).toFixed(2),desc:roc>0?'Taux↓ = OR↑':'Taux↑ = OR↓',pct:50-roc*3},
-    {id:'spx',val:(roc*0.4).toFixed(2),desc:roc>0?'Risk-ON':'Risk-OFF',pct:50+roc*2},
-  ];
-  items.forEach(i=>{
-    const el=document.getElementById('c-'+i.id);
-    const bar=document.getElementById('cb-'+i.id);
-    const desc=document.getElementById('cd-'+i.id);
-    if(el)el.textContent=(i.val>0?'+':'')+i.val+'%';
-    if(el)el.className='corr-val '+(i.val>0?'up':'dn');
-    if(bar){bar.style.width=Math.max(5,Math.min(95,i.pct))+'%';bar.style.background=i.val>0?'var(--gr)':'var(--re)';}
-    if(desc)desc.textContent=i.desc;
-  });
-}
-
-// ── SESSIONS ──────────────────────────────────────────────
-function updateSessions(){
-  const h=new Date().getHours();
-  const list=[
-    {n:'🌏 Asiatique',t:'00h–09h',on:h>=0&&h<8},
-    {n:'🇬🇧 Londres',t:'08h–17h',on:h>=8&&h<13},
-    {n:'⚡ Overlap LDN/NY',t:'13h30–17h',on:h>=13&&h<17},
-    {n:'🇺🇸 New York',t:'13h30–22h',on:h>=17&&h<22},
-  ];
-  document.getElementById('sessions').innerHTML=list.map(s=>
-    `<div class="sess"><div class="sdot ${s.on?'on':'off'}"></div><div class="sn">${s.n}</div><div class="st2">${s.t}</div>${s.on?'<span class="slive">LIVE</span>':''}</div>`
-  ).join('');
-  document.getElementById('tk-sess').textContent=list.find(s=>s.on)?.n||'Hors session';
-}
-
-// ── UTILS ──────────────────────────────────────────────────
+// UTILS
 function showQ(){const q=QUOTES[qi];document.getElementById('pq').textContent=q.t;document.getElementById('pa').textContent='— '+q.a;document.getElementById('pd').textContent=q.d;}
 function nextQ(){qi=(qi+1)%QUOTES.length;showQ();}
 function showErr(msg){const e=document.getElementById('errmsg');e.style.display='block';e.textContent='⚠️ '+msg;}
