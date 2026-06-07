@@ -145,7 +145,7 @@ function startPriceFeed() {
   }
 
   console.log('📡 Connexion WebSocket TwelveData...');
-  connectTwelveDataWS();
+  startPolling();
 }
 
 function connectTwelveDataWS() {
