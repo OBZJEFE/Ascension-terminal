@@ -376,42 +376,31 @@ window.onload = () => {
   setInterval(() => document.getElementById('clk').textContent = new Date().toLocaleTimeString('fr-FR'), 1000);
   setInterval(updateSessions, 30000);
   updateSessions();
-  connectWS();
+  // Afficher immédiatement sans WebSocket
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('wdot').className = 'wdot live';
+  document.getElementById('wtxt').textContent = 'EN DIRECT';
+  document.getElementById('wtxt').style.color = 'var(--gr)';
   loadData();
   setInterval(loadData, 5 * 60 * 1000);
+  setInterval(loadPrices, 30000);
 };
 
-// ── WEBSOCKET ─────────────────────────────────────────────────
-function connectWS() {
+// ── PRIX POLLING ──────────────────────────────────────────────
+async function loadPrices() {
   try {
-    ws = new WebSocket(WS_URL.replace('//', '//') + '');
-    const dot = document.getElementById('wdot');
-    const txt = document.getElementById('wtxt');
-
-    ws.onopen = () => {
-      dot.className = 'wdot live';
-      txt.textContent = 'EN DIRECT';
-      txt.style.color = 'var(--gr)';
-      document.getElementById('loading').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
-    };
-
-    ws.onmessage = (e) => {
-      try {
-        const d = JSON.parse(e.data);
-        if (d.type === 'price') onPrice(d.symbol, d.price, d.diff, d.pct);
-        if (d.type === 'prices') Object.entries(d.data).forEach(([sym, v]) => onPrice(sym, v.price, v.diff||0, v.pct||0));
-      } catch(err) {}
-    };
-
-    ws.onerror = () => { dot.className = 'wdot warn'; txt.textContent = 'RECONNEXION'; txt.style.color = 'var(--am)'; };
-    ws.onclose = () => {
-      dot.className = 'wdot dead'; txt.textContent = 'DÉCONNECTÉ'; txt.style.color = 'var(--re)';
-      setTimeout(connectWS, 4000);
-    };
-  } catch(e) {
-    setTimeout(connectWS, 4000);
-  }
+    const r = await fetch('/api/price/' + encodeURIComponent(ASSET));
+    const d = await r.json();
+    if (d.price) onPrice(d.symbol, d.price, 0, 0);
+  } catch(e) {}
+  // Aussi charger l'autre actif pour le ticker
+  try {
+    const other = ASSET === 'XAU/USD' ? 'BTC/USD' : 'XAU/USD';
+    const r = await fetch('/api/price/' + encodeURIComponent(other));
+    const d = await r.json();
+    if (d.price) onPrice(d.symbol, d.price, 0, 0);
+  } catch(e) {}
 }
 
 // ── PRICE ─────────────────────────────────────────────────────
